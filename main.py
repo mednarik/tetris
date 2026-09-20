@@ -3,15 +3,25 @@ import os, time
 bg_symbol = "#"
 figure_symbol = "%"
 
-def figures_will_overlap(fig1, figures): #check if a figure overlaps with any figure in a given list
+def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps with any figure in a given list
     figures_x_positions = []
     figures_y_positions = []
+    if direction == "right":
+        x_modifier = 1
+        y_modifier = 0
+    elif direction == "left":
+        x_modifier = -1
+        y_modifier = 0
+    elif direction == "down":
+        x_modifier = 0
+        y_modifier = 1
+    
     for figure in figures: #get all occupied positions
         for i in range(figure.size):
             figures_x_positions.append(figure.x + i)
             figures_y_positions.append(figure.y + i)
     for i in range(fig1.size):  #for every size part
-        if fig1.x + i in figures_x_positions and fig1.y + 1 + i in figures_y_positions:
+        if fig1.x + i + x_modifier in figures_x_positions and fig1.y + y_modifier + i in figures_y_positions:
             return True
     return False
 
@@ -21,9 +31,21 @@ class Figure():
         self.size = 2
         self.x = pos[0]
         self.y = pos[1]
+
     def gravity(self, board_height, figures):
-        if self.y + self.size < board_height and not figures_will_overlap(self, figures):
+        if self.y + self.size < board_height and not figures_will_overlap(self, "down", figures):
             self.y += 1
+            return True #it was able to fall
+        return False #it wasn't able to fall
+    
+    def move(self, direction: str, board_width: int, figures: list):
+        if direction == "a":
+            direction = "left"
+        elif direction == "d":
+            direction = "right"
+
+        if self.x + self.size < board_width and not figures_will_overlap(self, direction, figures):
+            self.x += 1 if direction == "right" else -1
             return True #it was able to fall
         return False #it wasn't able to fall
 
@@ -65,8 +87,7 @@ def main():
             if not alive:
                 placed_figures.append(fig1)
 
-            time.sleep(0.25)
+            fig1.move(input("Where do you want to go? (a/d): "), board.width, figures)
             os.system("cls")
 
 main()
-
