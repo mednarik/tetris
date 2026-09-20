@@ -3,14 +3,30 @@ import os, time
 bg_symbol = "#"
 figure_symbol = "%"
 
+def figures_will_overlap(fig1, figures): #check if a figure overlaps with any figure in a given list
+    figures_x_positions = []
+    figures_y_positions = []
+    for figure in figures: #get all occupied positions
+        for i in range(figure.size):
+            figures_x_positions.append(figure.x + i)
+            figures_y_positions.append(figure.y + i)
+    for i in range(fig1.size):  #for every size part
+        if fig1.x + i in figures_x_positions and fig1.y + 1 + i in figures_y_positions:
+            return True
+    return False
+
+
 class Figure():
-    def __init__(self):
+    def __init__(self, pos: tuple):
         self.size = 2
-        self.x = 4
-        self.y = 2
-    def gravity(self, board_height):
-        if self.y + self.size < board_height:
+        self.x = pos[0]
+        self.y = pos[1]
+    def gravity(self, board_height, figures):
+        if self.y + self.size < board_height and not figures_will_overlap(self, figures):
             self.y += 1
+            return True #it was able to fall
+        return False #it wasn't able to fall
+
 
 class Board():
     def __init__(self):
@@ -32,17 +48,25 @@ class Board():
             print() # go to a new row
 
 
-placed_figures = []
-board = Board()
+def main():
+    board = Board()
+    placed_figures = []
+    figures = []
 
-figure1 = Figure()
-placed_figures.append(figure1)
+    while True:
+        fig1 = Figure((4, 0))
+        figures.append(fig1)
+        alive = True
+        while alive:
+            
+            board.draw_board(figures)
 
-while True:
-    board.draw_board(placed_figures)
-    time.sleep(0.5)
-    figure1.gravity(board.height)
-    os.system("cls")
+            alive = fig1.gravity(board.height, placed_figures)
+            if not alive:
+                placed_figures.append(fig1)
 
+            time.sleep(0.25)
+            os.system("cls")
 
+main()
 
