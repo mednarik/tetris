@@ -1,3 +1,5 @@
+import os, time
+
 bg_symbol = "#"
 figure_symbol = "%"
 
@@ -6,6 +8,9 @@ class Figure():
         self.size = 2
         self.x = 4
         self.y = 2
+    def gravity(self, board_height):
+        if self.y + self.size < board_height:
+            self.y += 1
 
 class Board():
     def __init__(self):
@@ -33,5 +38,11 @@ board = Board()
 figure1 = Figure()
 placed_figures.append(figure1)
 
-board.draw_board(placed_figures)
+while True:
+    board.draw_board(placed_figures)
+    time.sleep(0.5)
+    figure1.gravity(board.height)
+    os.system("cls")
+
+
 
