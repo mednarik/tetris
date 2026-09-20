@@ -1,0 +1,5 @@
+-calculate which positions need to be replaced with a different symbol for the figures
+-draw everything
+-list of placed figures
+-after figure is placed add it to the list
+-each "frame" stop and let the user rotate the figure
