@@ -90,6 +90,6 @@ def main():
             fig1.move(input("Where do you want to go? (a/d): "), board.width, figures)
             os.system("cls")
 
-fig1 = Figure(4, 0)
-fig2 = Figure(6, 0)
+fig1 = Figure((4, 0))
+fig2 = Figure((6, 0))
 print(figures_will_overlap(fig1, "right", [fig2]))
