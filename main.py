@@ -91,16 +91,24 @@ def main():
         
         alive = True
         while alive:
-            
+
+            os.system("cls")
             board.draw_board(fig1, placed_positions)
+    
+            
+
+            fig1.move(input("Where do you want to go? (a/d): "), board.width, placed_positions)
+
+            os.system("cls")
+            board.draw_board(fig1, placed_positions)
+            time.sleep(0.5)
 
             alive = fig1.gravity(board.height, placed_positions)
+
             if not alive:
                 placed_positions.append((fig1.x, fig1.y))
                 fig1.reset()
 
-            fig1.move(input("Where do you want to go? (a/d): "), board.width, placed_positions)
-            os.system("cls")
 def test():
     fig1 = Figure((4, 0))
     fig2 = Figure((6, 1))
