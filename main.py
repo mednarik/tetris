@@ -21,7 +21,7 @@ def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps 
             figures_x_positions.append(figure.x + i)
             figures_y_positions.append(figure.y + i)
     for i in range(fig1.size):  #for every size part
-        if fig1.x + i + x_modifier in figures_x_positions and fig1.y + y_modifier + i in figures_y_positions:
+         if fig1.x + i + x_modifier in figures_x_positions and fig1.y + y_modifier + i in figures_y_positions:
             return True
     return False
 
@@ -87,9 +87,11 @@ def main():
             if not alive:
                 placed_figures.append(fig1)
 
-            fig1.move(input("Where do you want to go? (a/d): "), board.width, figures)
+            fig1.move(input("Where do you want to go? (a/d): "), board.width, placed_figures)
             os.system("cls")
-
-fig1 = Figure((4, 0))
-fig2 = Figure((6, 0))
-print(figures_will_overlap(fig1, "right", [fig2]))
+def test():
+    fig1 = Figure((4, 0))
+    fig2 = Figure((6, 1))
+    print(figures_will_overlap(fig1, "right", [fig2]))
+    
+main()
