@@ -70,7 +70,7 @@ class Board():
                     figs_x_positions.append(active.x + j )
 
             for pos in placed_positions:
-                if pos[1] == i or pos[1] - 1 == i:
+                if pos[1] == i or pos[1] + 1 == i:
                     figs_x_positions.append(pos[0])
                     figs_x_positions.append(pos[0] + 1)
                 
