@@ -1,7 +1,7 @@
 import os, time
 
 bg_symbol = "."
-figure_symbol = "%"
+figure_symbol = "#"
 
 def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps with any figure in a given list
     figures_x_positions = []
