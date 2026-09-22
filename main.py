@@ -42,11 +42,13 @@ class Figure():
     def move(self, direction: str, board_width: int, figures: list):
         if direction == "a":
             direction = "left"
+            if self.x > 0 and not figures_will_overlap(self, direction, figures):
+                self.x -= 1
+                return True #it moved
         elif direction == "d":
             direction = "right"
-        if direction == "left" or direction == "right":
             if self.x + self.size < board_width and not figures_will_overlap(self, direction, figures):
-                self.x += 1 if direction == "right" else -1
+                self.x += 1
                 return True #it moved
 
         return False #it didn't move
