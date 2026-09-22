@@ -1,6 +1,6 @@
 import os, time
 
-bg_symbol = "#"
+bg_symbol = " "
 figure_symbol = "%"
 
 def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps with any figure in a given list
@@ -12,7 +12,7 @@ def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps 
     elif direction == "left":
         x_modifier = -1
         y_modifier = 0
-    elif direction == "down":
+    else:
         x_modifier = 0
         y_modifier = 1
     
@@ -43,11 +43,12 @@ class Figure():
             direction = "left"
         elif direction == "d":
             direction = "right"
+        if direction == "left" or direction == "right":
+            if self.x + self.size < board_width and not figures_will_overlap(self, direction, figures):
+                self.x += 1 if direction == "right" else -1
+                return True #it moved
 
-        if self.x + self.size < board_width and not figures_will_overlap(self, direction, figures):
-            self.x += 1 if direction == "right" else -1
-            return True #it was able to fall
-        return False #it wasn't able to fall
+        return False #it didn't move
 
 
 class Board():
