@@ -64,16 +64,16 @@ class Board():
         for i in range(self.height): #for every row
             figs_x_positions = [] #list for every occupied x position in this row
             if active.y == i or active.y + 1 == i: #if it is on that row
-                for i in range(active.size): #add its x positions to the list
-                    figs_x_positions.append(active.x + i )
+                for j in range(active.size): #add its x positions to the list
+                    figs_x_positions.append(active.x + j )
 
             for pos in placed_positions:
-                if pos[1] or pos[1] - 1 == i:
+                if pos[1] == i or pos[1] - 1 == i:
                     figs_x_positions.append(pos[0])
                     figs_x_positions.append(pos[0] + 1)
                 
-            for i in range(self.width):
-                if i in figs_x_positions:
+            for j in range(self.width):
+                if j in figs_x_positions:
                     print(figure_symbol, end="")
                 else:
                     print(bg_symbol, end="")
