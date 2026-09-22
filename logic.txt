@@ -1,5 +1,3 @@
--calculate which positions need to be replaced with a different symbol for the figures
--draw everything
--list of placed figures
--after figure is placed add it to the list
--each "frame" stop and let the user rotate the figure
+instead of making a new figure everytime a figure is on the ground
+and saving the placed ones in a list, i only want to save the placed positions
+and just teleport the active one up again
