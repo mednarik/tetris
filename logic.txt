@@ -1,3 +1,2 @@
-instead of making a new figure everytime a figure is on the ground
-and saving the placed ones in a list, i only want to save the placed positions
-and just teleport the active one up again
+instead of adding the position of the dead figure to the placed_figures list, 
+i should add every single position meaning each position of every square that figure occupied

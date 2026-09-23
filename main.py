@@ -2,15 +2,19 @@ import os, time
 
 bg_symbol = "."
 figure_symbol = "#"
-
+########################################################
 def is_row_full(figure_positions, board_width, board_height):
-    example = [i for i in range(board_width)]
-    y_positions = [pos[0] for pos in figure_positions if pos[1] == board_height - 1]
+
+    example = [i for i in range(0, board_width, 2)]
+    y_positions = [pos[0] for pos in figure_positions if pos[1] == board_height - 2]
     if y_positions == example:
         return True
     return False
-        
 
+def remove_full_line(figure_positions, board_height):
+    lst = [(pos[0], pos[1] + 1) for pos in figure_positions if pos[1] + 1 < board_height]
+    return lst
+##################################################
 def figures_will_overlap(fig, direction, figures): #check if a figure overlaps with any figure in a given list
     
     if direction == "right":
@@ -122,6 +126,9 @@ def main():
             if not alive:
                 placed_positions.append((fig1.x, fig1.y))
                 fig1.reset()
+
+            if is_row_full(placed_positions, board.width, board.height):
+                placed_positions = remove_full_line(placed_positions, board.height)
 
 def test():
     lst = [(i, 16) for i in range(10)]
