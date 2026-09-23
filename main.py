@@ -22,9 +22,10 @@ def figures_will_overlap(fig, direction, figures): #check if a figure overlaps w
                 figures_positions.append((figure[0] + i, figure[1] + j)) #get occupied positions
 
     
-    for i in range(fig.size):  #for every size part
-         if (fig.x + x_modifier + i + 1, fig.y + y_modifier + i + 1) in figures_positions:
-            return True
+    for i in range(2):  #for every size part
+        for j in range(2):
+            if (fig.x + x_modifier + i, fig.y + y_modifier + j) in figures_positions:
+                return True
     return False
 
 
