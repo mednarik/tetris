@@ -36,7 +36,10 @@ class Figure():
     def gravity(self, board_height, figures):
         if self.y + self.size < board_height and not figures_will_overlap(self, "down", figures):
             self.y += 1
-            return True #it was able to fall
+            if self.y + self.size == board_height:
+                return False #it was able to fall but now its on the bottom
+            else:
+                return True #it was able to fall
         return False #it wasn't able to fall
     
     def move(self, direction: str, board_width: int, figures: list):
@@ -101,7 +104,7 @@ def main():
 
             os.system("cls")
             board.draw_board(fig1, placed_positions)
-            time.sleep(0.5)
+        
 
             alive = fig1.gravity(board.height, placed_positions)
 
