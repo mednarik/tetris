@@ -2,19 +2,28 @@ import os, time
 
 bg_char = '.'
 figure_char = '#'
-########################################################
-def is_row_full(placed_positions, board_width, board_height):
 
-    example = [i for i in range(0, board_width, 2)]
-    y_positions = [pos[0] for pos in placed_positions]
-    if y_positions == example:
-        return True
-    return False
+def get_full_rows(placed_positions, board_width, board_height) -> list:
+    full_rows = []
+    example_row = [i for i in range(board_width)]
+    for row in range(board_height):
+        row_x_positions = [pos[0] for pos in placed_positions if pos[1] == row]
+        if row_x_positions.sort() == example_row:
+            full_rows.append(row)
+    return full_rows
 
-def remove_full_line(figure_positions, board_height):
-    lst = [(pos[0], pos[1] + 1) for pos in figure_positions if pos[1] + 1 < board_height]
-    return lst
-##################################################
+def remove_full_rows(placed_positions, full_rows) -> list:
+    new_placed_squares = join_two_lists([], placed_positions)
+    for row in full_rows:
+        for square in new_placed_squares:
+            if square[1] == row:
+                new_placed_squares.remove(square)
+        for square in new_placed_squares:
+            if square[1] < row:
+                new_placed_squares.remove(square)
+                new_placed_squares.append((square[0], square[1] + 1))
+    
+    return new_placed_squares
 
 
 def join_two_lists(lst1, lst2):
@@ -141,9 +150,7 @@ def main():
                 for square in fig1.get_occupied_squares():
                     placed_positions.append(square)
                 fig1.reset()
-
-            #if is_row_full(placed_positions, board.width, board.height):
-                #placed_positions = remove_full_line(placed_positions, board.height)
+            placed_positions = remove_full_rows(placed_positions, get_full_rows(placed_positions, board.width, board.height))
 
 def test():
     fig1 = Figure((1, 1))
