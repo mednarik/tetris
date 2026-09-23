@@ -3,9 +3,8 @@ import os, time
 bg_symbol = "."
 figure_symbol = "#"
 
-def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps with any figure in a given list
-    figures_x_positions = []
-    figures_y_positions = []
+def figures_will_overlap(fig, direction, figures): #check if a figure overlaps with any figure in a given list
+    
     if direction == "right":
         x_modifier = 1
         y_modifier = 0
@@ -15,13 +14,16 @@ def figures_will_overlap(fig1, direction, figures): #check if a figure overlaps 
     else:
         x_modifier = 0
         y_modifier = 1
-    
-    for figure in figures: #get all occupied positions
+
+    figures_positions = []
+    for figure in figures:
         for i in range(2):
-            figures_x_positions.append(figure[0] + i)
-            figures_y_positions.append(figure[1] + i)
-    for i in range(fig1.size):  #for every size part
-         if fig1.x + i + x_modifier in figures_x_positions and fig1.y + y_modifier + i in figures_y_positions:
+            for j in range(2):
+                figures_positions.append((figure[0] + i, figure[1] + j)) #get occupied positions
+
+    
+    for i in range(fig.size):  #for every size part
+         if (fig.x + x_modifier + i + 1, fig.y + y_modifier + i + 1) in figures_positions:
             return True
     return False
 
