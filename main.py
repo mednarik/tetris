@@ -3,6 +3,14 @@ import os, time
 bg_symbol = "."
 figure_symbol = "#"
 
+def is_row_full(figure_positions, board_width, board_height):
+    example = [i for i in range(board_width)]
+    y_positions = [pos[0] for pos in figure_positions if pos[1] == board_height - 1]
+    if y_positions == example:
+        return True
+    return False
+        
+
 def figures_will_overlap(fig, direction, figures): #check if a figure overlaps with any figure in a given list
     
     if direction == "right":
@@ -116,8 +124,8 @@ def main():
                 fig1.reset()
 
 def test():
-    fig1 = Figure((4, 0))
-    fig2 = Figure((6, 1))
-    print(figures_will_overlap(fig1, "right", [fig2]))
-    
+    lst = [(i, 16) for i in range(10)]
+    print(lst)
+    print(is_row_full(lst, 10, 17))
+
 main()
