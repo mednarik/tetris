@@ -7,23 +7,24 @@ def get_full_rows(placed_positions, board_width, board_height) -> list:
     full_rows = []
     example_row = [i for i in range(board_width)]
     for row in range(board_height):
-        row_x_positions = [pos[0] for pos in placed_positions if pos[1] == row]
-        if row_x_positions.sort() == example_row:
+        row_x_positions = []
+        for pos in placed_positions:
+            if pos[1] == row:
+                row_x_positions.append(pos[0])
+        if sorted(row_x_positions) == example_row:
             full_rows.append(row)
     return full_rows
 
 def remove_full_rows(placed_positions, full_rows) -> list:
-    new_placed_squares = join_two_lists([], placed_positions)
-    for row in full_rows:
-        for square in new_placed_squares:
-            if square[1] == row:
-                new_placed_squares.remove(square)
-        for square in new_placed_squares:
-            if square[1] < row:
-                new_placed_squares.remove(square)
-                new_placed_squares.append((square[0], square[1] + 1))
+    placed_positions = [pos for pos in placed_positions if pos[1] not in full_rows]
+    for full_row in full_rows:
+        for pos in placed_positions:
+            if pos[1] < full_row:
+                pos[1] += 1
+    return placed_positions
+
     
-    return new_placed_squares
+    
 
 
 def join_two_lists(lst1, lst2):
@@ -34,7 +35,7 @@ def join_two_lists(lst1, lst2):
         lst.append(item)
     return lst
 
-def squares_will_overlap(alpha_sigma_lone_wolf_ahh_square, direction, squares): #check if a square overlaps with any other square in a given list
+def squares_will_overlap(alpha_sigma_maincharacter_lone_wolf_ahh_square, direction, squares): #check if a square overlaps with any other square in a given list
     
     if direction == "right":
         x_modifier = 1
@@ -47,7 +48,7 @@ def squares_will_overlap(alpha_sigma_lone_wolf_ahh_square, direction, squares): 
         y_modifier = 1
 
     for square in squares:
-        if (alpha_sigma_lone_wolf_ahh_square[0] + x_modifier, alpha_sigma_lone_wolf_ahh_square[1] + y_modifier) == square:
+        if (alpha_sigma_maincharacter_lone_wolf_ahh_square[0] + x_modifier, alpha_sigma_maincharacter_lone_wolf_ahh_square[1] + y_modifier) == square:
             return True
     return False
 
