@@ -113,6 +113,18 @@ class Square(Figure):
             for j in range(self.size):
                 occupied_squares.append((self.x + i, self.y + j))
         return occupied_squares
+    
+class Line(Figure):
+    def __init__(self, pos):
+        super().__init__(pos)
+        self.length = 4
+        self.rotation = 0 #degrees
+
+    def get_occupied_squares(self):
+        occupied_squares = []
+        for i in range(self.length):
+            occupied_squares.append((self.x + i, self.y))
+        return occupied_squares
 
 class Board():
     def __init__(self):
@@ -132,7 +144,7 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = Square((4, 0))
+    fig1 = Line((4, 0))
 
     while True:
         
