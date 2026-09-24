@@ -1,4 +1,2 @@
-instead of adding the position of the dead figure to the placed_figures list, 
-i should add every single position meaning each position of every square that figure occupied
-
-so basically treat dead figures as just squares and nothing more
+next step is to add new shapes
+i will add the long 4x1 shape first

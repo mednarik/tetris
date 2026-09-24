@@ -55,7 +55,6 @@ def squares_will_overlap(alpha_sigma_maincharacter_lone_wolf_ahh_square, directi
 
 class Figure():
     def __init__(self, pos: tuple):
-        self.size = 2
         self.spawnpos = pos
         self.x = pos[0]
         self.y = pos[1]
@@ -65,38 +64,49 @@ class Figure():
         for square in self.get_occupied_squares():
             if squares_will_overlap(square, "down", placed_squares):
                 way_blocked = True
-                break        
-        if self.y + self.size < board_height and not way_blocked:
-            self.y += 1
-            if self.y + self.size == board_height:
-                return False #it was able to fall but now its on the bottom
-            else:
-                return True #it was able to fall
-        return False #it wasn't able to fall
+                break
+            if square[1] + 1 >= board_height:
+                way_blocked = True
+                break
+        if way_blocked:
+            return False #it wasn't able to fall
+        self.y += 1
+        return True #it was able to fall
     
     def move(self, direction: str, board_width: int, placed_squares: list):
         if direction == "a":
             direction = "left"
-            way_blocked = False
             for square in self.get_occupied_squares():
                 if squares_will_overlap(square, direction, placed_squares):
-                    way_blocked = True
-                    break
-            if self.x > 0 and not way_blocked:
-                self.x -= 1
-                return True #it moved
+                    return False
+            if self.x <= 0:
+                return False
+            self.x -= 1
+
         elif direction == "d":
             direction = "right"
-            way_blocked = False
+            
             for square in self.get_occupied_squares():
                 if squares_will_overlap(square, direction, placed_squares):
-                    way_blocked = True
-                    break
-            if self.x + self.size < board_width and not way_blocked:
-                self.x += 1
-                return True #it moved
-        return False #it didn't move
+                    return False #it didn't move  
+            
+            for square in self.get_occupied_squares():
+                if square[0] + 1 >= board_width:
+                    
+                    return False #it didn't move      
+            self.x += 1        
+
+        return True  #it moved
     
+    def reset(self):
+        self.x = self.spawnpos[0]
+        self.y = self.spawnpos[1]
+
+class Square(Figure):
+    def __init__(self, pos):
+        super().__init__(pos)
+        self.size = 2
+
     def get_occupied_squares(self):
         occupied_squares = []
         for i in range(self.size):
@@ -104,10 +114,6 @@ class Figure():
                 occupied_squares.append((self.x + i, self.y + j))
         return occupied_squares
 
-    def reset(self):
-        self.x = self.spawnpos[0]
-        self.y = self.spawnpos[1]
-        
 class Board():
     def __init__(self):
         self.width = 10
@@ -126,7 +132,7 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = Figure((4, 0))
+    fig1 = Square((4, 0))
 
     while True:
         
