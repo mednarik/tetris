@@ -20,7 +20,7 @@ def remove_full_rows(placed_positions, full_rows) -> list:
     for full_row in full_rows:
         for pos in placed_positions:
             if pos[1] < full_row:
-                pos[1] += 1
+                pos = [pos[0], pos[1] + 1]
     return placed_positions
 
     
@@ -58,7 +58,7 @@ class Figure():
         self.spawnpos = pos
         self.x = pos[0]
         self.y = pos[1]
-        self.draw_direction = "up" #the figure is being drawn from left to right
+        self.draw_direction = "right" #the figure is being drawn from left to right
 
     def gravity(self, board_height, placed_squares):
         way_blocked = False
@@ -96,7 +96,19 @@ class Figure():
             self.x += 1        
 
         return True  #it moved
-    
+
+    def rotate(self):
+        directions = ["up", "right", "down", "left"]
+
+        current_idx = directions.index(self.draw_direction)
+        if current_idx < len(directions) - 1:
+            self.draw_direction = directions[current_idx + 1]
+        else:
+            self.draw_direction = directions[0]
+        
+        
+        
+
     def reset(self):
         self.x = self.spawnpos[0]
         self.y = self.spawnpos[1]
@@ -158,15 +170,19 @@ def main():
             board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares()))
     
             
+            print("(a) to go left/(d) to go right/(r) to rotate/() to not move")
+            user_input = input("What do you want to do?: ")
+            if user_input == "r":
+                fig1.rotate()
+            else:
+                fig1.move(user_input, board.width, placed_positions)
 
-            fig1.move(input("Where do you want to go? (a/d): "), board.width, placed_positions)
+                os.system("cls")
+                board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares()))
 
-            os.system("cls")
-            board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares()))
+            
 
-        
-
-            alive = fig1.gravity(board.height, placed_positions)
+                alive = fig1.gravity(board.height, placed_positions)
 
             if not alive:
                 for square in fig1.get_occupied_squares():

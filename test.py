@@ -1,4 +1,4 @@
-lst1 = [1, 2, 3]
-lst2 = [1, 2, 4]
+pos = (2, 3)
 
-print(lst1 == lst2)
+pos = [pos[0], pos[1] + 1]
+print(pos)
