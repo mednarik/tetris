@@ -58,6 +58,7 @@ class Figure():
         self.spawnpos = pos
         self.x = pos[0]
         self.y = pos[1]
+        self.draw_direction = "up" #the figure is being drawn from left to right
 
     def gravity(self, board_height, placed_squares):
         way_blocked = False
@@ -79,8 +80,8 @@ class Figure():
             for square in self.get_occupied_squares():
                 if squares_will_overlap(square, direction, placed_squares):
                     return False
-            if self.x <= 0:
-                return False
+                if square[0] <= 0:
+                    return False
             self.x -= 1
 
         elif direction == "d":
@@ -89,11 +90,9 @@ class Figure():
             for square in self.get_occupied_squares():
                 if squares_will_overlap(square, direction, placed_squares):
                     return False #it didn't move  
-            
-            for square in self.get_occupied_squares():
                 if square[0] + 1 >= board_width:
                     
-                    return False #it didn't move      
+                    return False #it didn't move
             self.x += 1        
 
         return True  #it moved
@@ -109,11 +108,10 @@ class Square(Figure):
 
     def get_occupied_squares(self):
         occupied_squares = []
-        for i in range(self.size):
-            for j in range(self.size):
-                occupied_squares.append((self.x + i, self.y + j))
-        return occupied_squares
-    
+        if self.draw_direction == "right":
+            for i in range(self.size):
+                for j in range(self.size):
+                    occupied_squares.append((self.x + i, self.y + j))
 class Line(Figure):
     def __init__(self, pos):
         super().__init__(pos)
@@ -122,8 +120,13 @@ class Line(Figure):
 
     def get_occupied_squares(self):
         occupied_squares = []
-        for i in range(self.length):
-            occupied_squares.append((self.x + i, self.y))
+
+        if self.draw_direction in ["right", "left"]:
+            for i in range(self.length):
+                occupied_squares.append((self.x + i, self.y))
+        else:
+            for i in range(self.length):
+                occupied_squares.append((self.x, self.y + i))
         return occupied_squares
 
 class Board():
