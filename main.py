@@ -39,12 +39,15 @@ def join_two_lists(lst1, lst2):
     return lst
 
 def squares_will_overlap(alpha_sigma_maincharacter_lone_wolf_ahh_square, direction, squares): #check if a square overlaps with any other square in a given list
-    
+
     if direction == "right":
         x_modifier = 1
         y_modifier = 0
     elif direction == "left":
         x_modifier = -1
+        y_modifier = 0
+    elif direction == None:
+        x_modifier = 0
         y_modifier = 0
     else:
         x_modifier = 0
@@ -65,7 +68,7 @@ class Figure():
 
     def gravity(self, board_height, placed_squares):
         way_blocked = False
-        for square in self.get_occupied_squares():
+        for square in self.get_occupied_squares(self.draw_direction):
             if squares_will_overlap(square, "down", placed_squares):
                 way_blocked = True
                 break
@@ -80,7 +83,7 @@ class Figure():
     def move(self, direction: str, board_width: int, placed_squares: list):
         if direction == "a":
             direction = "left"
-            for square in self.get_occupied_squares():
+            for square in self.get_occupied_squares(self.draw_direction):
                 if squares_will_overlap(square, direction, placed_squares):
                     return False
                 if square[0] <= 0:
@@ -90,25 +93,31 @@ class Figure():
         elif direction == "d":
             direction = "right"
             
-            for square in self.get_occupied_squares():
+            for square in self.get_occupied_squares(self.draw_direction):
                 if squares_will_overlap(square, direction, placed_squares):
                     return False #it didn't move  
                 if square[0] + 1 >= board_width:
                     
                     return False #it didn't move
-            self.x += 1        
+            self.x += 1
 
-        return True  #it moved
+        return True  #it moved 
 
-    def rotate(self):
+    def rotate(self, placed_squares, board_width):
         directions = ["up", "right", "down", "left"]
 
         current_idx = directions.index(self.draw_direction)
         if current_idx < len(directions) - 1:
-            self.draw_direction = directions[current_idx + 1]
+            draw_direction = directions[current_idx + 1]
         else:
-            self.draw_direction = directions[0]
-        
+            draw_direction = directions[0]
+        for square in self.get_occupied_squares(draw_direction):
+            if squares_will_overlap(square, None, placed_squares):
+                return False
+            if square[0] >= board_width:
+                return False
+        self.draw_direction = draw_direction
+        return True
 
     def reset(self):
         self.x = self.spawnpos[0]
@@ -119,22 +128,22 @@ class Square(Figure):
         super().__init__(pos)
         self.size = 2
 
-    def get_occupied_squares(self):
+    def get_occupied_squares(self, draw_direction):
         occupied_squares = []
-        if self.draw_direction == "right":
-            for i in range(self.size):
-                for j in range(self.size):
-                    occupied_squares.append((self.x + i, self.y + j))
+        
+        for i in range(self.size):
+            for j in range(self.size):
+                occupied_squares.append((self.x + i, self.y + j))
 class Line(Figure):
     def __init__(self, pos):
         super().__init__(pos)
         self.length = 4
         self.rotation = 0 #degrees
 
-    def get_occupied_squares(self):
+    def get_occupied_squares(self, draw_direction):
         occupied_squares = []
 
-        if self.draw_direction in ["right", "left"]:
+        if draw_direction in ["right", "left"]:
             for i in range(self.length):
                 occupied_squares.append((self.x + i, self.y))
         else:
@@ -168,30 +177,30 @@ def main():
         while alive:
 
             os.system("cls")
-            board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares()))
+            board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares(fig1.draw_direction)))
     
             
             print("(a) to go left/(d) to go right/(r) to rotate/() to not move")
             user_input = input("What do you want to do?: ")
             if user_input == "r":
-                fig1.rotate()
+                fig1.rotate(placed_positions, board.width)
             else:
                 fig1.move(user_input, board.width, placed_positions)
 
                 os.system("cls")
-                board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares()))
+                board.draw_board(join_two_lists(placed_positions, fig1.get_occupied_squares(fig1.draw_direction)))
 
             
 
                 alive = fig1.gravity(board.height, placed_positions)
 
             if not alive:
-                for square in fig1.get_occupied_squares():
+                for square in fig1.get_occupied_squares(fig1.draw_direction):
                     placed_positions.append(square)
                 fig1.reset()
             placed_positions = remove_full_rows(placed_positions, get_full_rows(placed_positions, board.width, board.height))
 
 def test():
     fig1 = Figure((1, 1))
-    print(fig1.get_occupied_squares())
+    print(fig1.get_occupied_squares(fig1.draw_direction))
 main()
