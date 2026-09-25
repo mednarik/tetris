@@ -16,11 +16,14 @@ def get_full_rows(placed_positions, board_width, board_height) -> list:
     return full_rows
 
 def remove_full_rows(placed_positions, full_rows) -> list:
-    placed_positions = [pos for pos in placed_positions if pos[1] not in full_rows]
-    for full_row in full_rows:
-        for pos in placed_positions:
-            if pos[1] < full_row:
-                pos = [pos[0], pos[1] + 1]
+    if full_rows != []:
+        placed_positions = [pos for pos in placed_positions if pos[1] not in full_rows] #remove full rows
+        new_positions = []
+        for full_row in full_rows:
+            for pos in placed_positions:
+                if pos[1] < full_row:
+                    new_positions.append((pos[0], pos[1] + 1))
+        return new_positions
     return placed_positions
 
     
