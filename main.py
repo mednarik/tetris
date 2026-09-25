@@ -109,8 +109,6 @@ class Figure():
         else:
             self.draw_direction = directions[0]
         
-        
-        
 
     def reset(self):
         self.x = self.spawnpos[0]
@@ -141,7 +139,7 @@ class Line(Figure):
                 occupied_squares.append((self.x + i, self.y))
         else:
             for i in range(self.length):
-                occupied_squares.append((self.x, self.y + i))
+                occupied_squares.append((self.x, self.y - i))
         return occupied_squares
 
 class Board():
