@@ -18,11 +18,14 @@ def get_full_rows(placed_positions, board_width, board_height) -> list:
 def remove_full_rows(placed_positions, full_rows) -> list:
     if full_rows != []:
         placed_positions = [pos for pos in placed_positions if pos[1] not in full_rows] #remove full rows
-        new_positions = []
+
         for full_row in full_rows:
+            new_positions = []
             for pos in placed_positions:
                 if pos[1] < full_row:
                     new_positions.append((pos[0], pos[1] + 1))
+            placed_positions = []
+            placed_positions = new_positions.copy()
         return new_positions
     return placed_positions
 
@@ -153,8 +156,8 @@ class Line(Figure):
 
 class Board():
     def __init__(self):
-        self.width = 10
-        self.height = 16
+        self.width = 8
+        self.height = 7
     def draw_board(self, positions):
 
         for y in range(self.height):
