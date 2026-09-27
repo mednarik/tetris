@@ -24,6 +24,8 @@ def remove_full_rows(placed_positions, full_rows) -> list:
             for pos in placed_positions:
                 if pos[1] < full_row:
                     new_positions.append((pos[0], pos[1] + 1))
+                else:
+                    new_positions.append(pos)
             placed_positions = []
             placed_positions = new_positions.copy()
         return new_positions
@@ -207,7 +209,7 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = LShape((4, 5))
+    fig1 = LShape((4, 1))
 
     while True:
         
