@@ -225,6 +225,54 @@ class MirroredLShape(Figure):
                 occupied_squares.append((self.x + i, self.y))
             occupied_squares.append((self.x + self.length - 1, self.y + 1))
         return occupied_squares
+    
+class ZigZag(Figure):
+    """
+    left to right:  top to bottom:
+         ##              #                 
+        ##               ##
+                          #
+    """
+    def __init__(self, pos):
+        super().__init__(pos)
+        self.zigzags = 2
+
+    def get_occupied_squares(self, draw_direction):
+        occupied_squares = []
+        if draw_direction in ["right", "left"]:
+            for i in range(self.zigzags):
+                occupied_squares.append((self.x + i, self.y - i))
+                occupied_squares.append((self.x + i + 1, self.y - i))
+        elif draw_direction in ["down", "up"]:
+            for i in range(self.zigzags):
+                occupied_squares.append((self.x + i, self.y + i))
+                occupied_squares.append((self.x + i, self.y + i + 1))
+        return occupied_squares
+
+class MirroredZigZag(Figure):
+    """
+    left to right:  top to bottom:
+        ##                #                 
+         ##              ##
+                         #
+    """
+    def __init__(self, pos):
+        super().__init__(pos)
+        self.zigzags = 2
+
+    def get_occupied_squares(self, draw_direction):
+        occupied_squares = []
+        if draw_direction in ["right", "left"]:
+            for i in range(self.zigzags):
+                occupied_squares.append((self.x + i, self.y + i))
+                occupied_squares.append((self.x + i + 1, self.y + i))
+        elif draw_direction in ["down", "up"]:
+            for i in range(self.zigzags):
+                occupied_squares.append((self.x + i, self.y - i))
+                occupied_squares.append((self.x + i, self.y - i - 1))
+        return occupied_squares
+                
+
             
 
 class Board():
@@ -245,7 +293,7 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = MirroredLShape((4, 1))
+    fig1 = MirroredZigZag((4, 1))
 
     while True:
         
