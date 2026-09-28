@@ -271,9 +271,33 @@ class MirroredZigZag(Figure):
                 occupied_squares.append((self.x + i, self.y - i))
                 occupied_squares.append((self.x + i, self.y - i - 1))
         return occupied_squares
-                
+class TShape(Figure):
+    """
+    left to right:
+    ###
+     #
+    """
+    def get_occupied_squares(self, draw_direction):
+        occupied_squares = []
+        if draw_direction == "right":
+            for i in range(3):
+                occupied_squares.append((self.x + i, self.y))
+            occupied_squares.append((self.x + 1, self.y + 1))
+        elif draw_direction == "down":
+            occupied_squares.append((self.x - 1, self.y + 1))
+            for i in range(3):
+                occupied_squares.append((self.x, self.y + i))
+        elif draw_direction == "left":
+            for i in range(3):
+                occupied_squares.append((self.x + i, self.y))
+            occupied_squares.append((self.x + 1, self.y - 1))
+        elif draw_direction == "up":
+            for i in range(3):
+                occupied_squares.append((self.x, self.y + i))
+            occupied_squares.append((self.x + 1, self.y + 1))
 
-            
+        return occupied_squares
+                
 
 class Board():
     def __init__(self):
@@ -293,7 +317,7 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = MirroredZigZag((4, 1))
+    fig1 = TShape((4, 1))
 
     while True:
         
