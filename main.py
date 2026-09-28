@@ -129,6 +129,11 @@ class Figure():
         self.y = self.spawnpos[1]
 
 class Square(Figure):
+    """
+    left to right:
+    ##
+    ##
+    """
     def __init__(self, pos):
         super().__init__(pos)
         self.size = 2
@@ -189,6 +194,37 @@ class LShape(Figure):
                 occupied_squares.append((self.x + i, self.y))
             occupied_squares.append((self.x + self.length - 1, self.y - 1))
         return occupied_squares
+
+class MirroredLShape(Figure):
+    """
+    left to right:
+     #
+     #
+    ##
+    """
+    def __init__(self, pos):
+        super().__init__(pos)
+        self.length = 3
+
+    def get_occupied_squares(self, draw_direction):
+        occupied_squares = []
+        if draw_direction == "right":
+            for i in range(self.length):
+                occupied_squares.append((self.x, self.y + i))
+            occupied_squares.append((self.x - 1, self.y + self.length - 1))
+        elif draw_direction == "down":
+            for i in range(self.length):
+                occupied_squares.append((self.x + i, self.y))
+            occupied_squares.append((self.x, self.y - 1))
+        elif draw_direction == "left":
+            for i in range(self.length):
+                occupied_squares.append((self.x, self.y + i))
+            occupied_squares.append((self.x + 1, self.y))
+        elif draw_direction == "up":
+            for i in range(self.length):
+                occupied_squares.append((self.x + i, self.y))
+            occupied_squares.append((self.x + self.length - 1, self.y + 1))
+        return occupied_squares
             
 
 class Board():
@@ -209,7 +245,7 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = LShape((4, 1))
+    fig1 = MirroredLShape((4, 1))
 
     while True:
         
