@@ -40,7 +40,7 @@ def join_two_lists(lst1, lst2):
         lst.append(item)
     return lst
 
-def squares_will_overlap(alpha_sigma_maincharacter_lone_wolf_ahh_square, direction, squares): #check if a square overlaps with any other square in a given list
+def squares_will_overlap(alpha_sigma_maincharacter_lone_wolf_ahh_square, direction, beta_male_squares): #check if a square overlaps with any other square in a given list
 
     if direction == "right":
         x_modifier = 1
@@ -55,7 +55,7 @@ def squares_will_overlap(alpha_sigma_maincharacter_lone_wolf_ahh_square, directi
         x_modifier = 0
         y_modifier = 1
 
-    for square in squares:
+    for square in beta_male_squares:
         if (alpha_sigma_maincharacter_lone_wolf_ahh_square[0] + x_modifier, alpha_sigma_maincharacter_lone_wolf_ahh_square[1] + y_modifier) == square:
             return True
     return False
