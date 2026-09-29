@@ -1,4 +1,4 @@
-import os, time
+import os, random
 
 bg_char = '.'
 figure_char = '#'
@@ -32,9 +32,6 @@ def remove_full_rows(placed_positions, full_rows) -> list:
     return placed_positions
 
     
-    
-
-
 def join_two_lists(lst1, lst2):
     lst = []
     for item in lst1:
@@ -144,6 +141,7 @@ class Square(Figure):
         for i in range(self.size):
             for j in range(self.size):
                 occupied_squares.append((self.x + i, self.y + j))
+        return occupied_squares
 class Line(Figure):
     """
     left to right:
@@ -317,7 +315,9 @@ class Board():
 def main():
     board = Board()
     placed_positions = []
-    fig1 = TShape((4, 1))
+    spawn_pos = (3, 0)
+    figs = [Square(spawn_pos), Line(spawn_pos), LShape(spawn_pos), MirroredLShape(spawn_pos), ZigZag(spawn_pos), MirroredZigZag(spawn_pos), TShape(spawn_pos)]
+    fig1 = random.choice(figs)
 
     while True:
         
@@ -346,6 +346,8 @@ def main():
                 for square in fig1.get_occupied_squares(fig1.draw_direction):
                     placed_positions.append(square)
                 fig1.reset()
+                fig1 = random.choice(figs)
+
             placed_positions = remove_full_rows(placed_positions, get_full_rows(placed_positions, board.width, board.height))
 
 def test():
