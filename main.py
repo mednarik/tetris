@@ -118,6 +118,8 @@ class Figure():
                 return False
             if square[0] >= board_width:
                 return False
+            if square[0] < 0:
+                return False
         self.draw_direction = draw_direction
         return True
 
