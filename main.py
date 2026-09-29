@@ -366,7 +366,5 @@ def main():
     user_input = input("What do you want to do?: ")
     if user_input == "r":
         main()
-def test():
-    fig1 = Figure((1, 1))
-    print(fig1.get_occupied_squares(fig1.draw_direction))
+
 main()
