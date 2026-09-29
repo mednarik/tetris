@@ -321,9 +321,14 @@ def main():
     figs = [Square(spawn_pos), Line(spawn_pos), LShape(spawn_pos), MirroredLShape(spawn_pos), ZigZag(spawn_pos), MirroredZigZag(spawn_pos), TShape(spawn_pos)]
     fig1 = random.choice(figs)
 
-    while True:
-        
+    running = True
+    while running:
         alive = True
+
+        for square in fig1.get_occupied_squares(fig1.draw_direction):
+            if squares_will_overlap(square, None, placed_positions):
+                running = False
+                break   
         while alive:
 
             os.system("cls")
@@ -351,7 +356,12 @@ def main():
                 fig1 = random.choice(figs)
 
             placed_positions = remove_full_rows(placed_positions, get_full_rows(placed_positions, board.width, board.height))
-
+    os.system("cls")
+    print("GAME OVER")
+    print("(r) to restart/() to exit")
+    user_input = input("What do you want to do?: ")
+    if user_input == "r":
+        main()
 def test():
     fig1 = Figure((1, 1))
     print(fig1.get_occupied_squares(fig1.draw_direction))
