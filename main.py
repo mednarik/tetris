@@ -105,7 +105,7 @@ class Figure():
 
         return True  #it moved 
 
-    def rotate(self, placed_squares, board_width):
+    def rotate(self, placed_squares, board_width, board_height):
         directions = ["up", "right", "down", "left"]
 
         current_idx = directions.index(self.draw_direction)
@@ -116,9 +116,11 @@ class Figure():
         for square in self.get_occupied_squares(draw_direction):
             if squares_will_overlap(square, None, placed_squares):
                 return False
-            if square[0] >= board_width:
+            elif square[0] >= board_width:
                 return False
-            if square[0] < 0:
+            elif square[0] < 0:
+                return False
+            elif square[1] >= board_height:
                 return False
         self.draw_direction = draw_direction
         return True
@@ -328,7 +330,9 @@ def main():
         for square in fig1.get_occupied_squares(fig1.draw_direction):
             if squares_will_overlap(square, None, placed_positions):
                 running = False
-                break   
+                break
+        if running == False: #lazy fix i know but i wanna continue
+            break
         while alive:
 
             os.system("cls")
@@ -338,7 +342,7 @@ def main():
             print("(a) to go left/(d) to go right/(r) to rotate/() to not move")
             user_input = input("What do you want to do?: ")
             if user_input == "r":
-                fig1.rotate(placed_positions, board.width)
+                fig1.rotate(placed_positions, board.width, board.height)
             else:
                 fig1.move(user_input, board.width, placed_positions)
 
